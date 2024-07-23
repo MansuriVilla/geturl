@@ -20,14 +20,23 @@ uploadInput.addEventListener('change', function() {
             imgElement.src = imgSrc;
             previewContainer.appendChild(imgElement);
 
-            // Create close button
-            const closeBtn = document.createElement('div');
-            closeBtn.classList.add('close-btn');
-            closeBtn.innerHTML = 'x';
-            closeBtn.addEventListener('click', function() {
-                previewContainer.remove();
+            // Create copy URL button
+            const copyUrlBtn = document.createElement('div');
+            copyUrlBtn.classList.add('copy-url-btn');
+            copyUrlBtn.innerHTML = 'Copy Image URL';
+            copyUrlBtn.addEventListener('click', function() {
+                const url = imgElement.src;
+                if (url) {
+                    navigator.clipboard.writeText(url)
+                        .then(() => {
+                            alert('Image URL copied to clipboard!');
+                        })
+                        .catch(err => {
+                            console.error('Failed to copy: ', err);
+                        });
+                }
             });
-            previewContainer.appendChild(closeBtn);
+            previewContainer.appendChild(copyUrlBtn);
 
             // Append preview container to imagePreview div
             imagePreview.appendChild(previewContainer);
