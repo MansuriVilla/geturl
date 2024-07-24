@@ -20,7 +20,10 @@
   }
   #imagePreview .preview-container .preview-img img {
     width: 100%;
-    object-fit: cover;
     max-height: 100%;
     border-radius: 12px;
+    object-fit: cover;
+    object-position: top;
+    -o-object-position: top;
+    -o-object-fit: cover;
   }
