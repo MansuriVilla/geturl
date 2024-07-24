@@ -28,3 +28,30 @@
     background-color: rgba(255, 255, 255, 0.7);
     cursor: pointer;
 }
+
+
+
+#imagePreview .preview-container {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 0px;
+  }
+
+
+  #imagePreview .preview-container .preview-img {
+    height: 400px;
+    width: 100%;
+    background: #f9f9f9;
+    margin: 10px;
+    max-width: 400px;
+    padding: 10px;
+    border-radius: 22px;
+  }
+  #imagePreview .preview-container .preview-img img {
+    width: 100%;
+    height: auto;
+  }
