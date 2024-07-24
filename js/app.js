@@ -3,7 +3,15 @@ const imagePreview = document.getElementById('imagePreview');
 
 uploadInput.addEventListener('change', function() {
     const files = this.files;
-    
+
+    // Clear previous previews
+    imagePreview.innerHTML = '';
+
+    // Create main preview container if not exists
+    let previewContainer = document.createElement('div');
+    previewContainer.classList.add('preview-container');
+    imagePreview.appendChild(previewContainer);
+
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const reader = new FileReader();
@@ -11,14 +19,14 @@ uploadInput.addEventListener('change', function() {
         reader.onload = function(event) {
             const imgSrc = event.target.result;
 
-            // Create preview container
-            const previewContainer = document.createElement('div');
-            previewContainer.classList.add('preview-container');
+            // Create image preview div
+            const imgPreviewDiv = document.createElement('div');
+            imgPreviewDiv.classList.add('preview-img');
 
             // Create image element
             const imgElement = document.createElement('img');
             imgElement.src = imgSrc;
-            previewContainer.appendChild(imgElement);
+            imgPreviewDiv.appendChild(imgElement);
 
             // Create copy URL button
             const copyUrlBtn = document.createElement('div');
@@ -36,10 +44,10 @@ uploadInput.addEventListener('change', function() {
                         });
                 }
             });
-            previewContainer.appendChild(copyUrlBtn);
+            imgPreviewDiv.appendChild(copyUrlBtn);
 
-            // Append preview container to imagePreview div
-            imagePreview.appendChild(previewContainer);
+            // Append image preview div to main preview container
+            previewContainer.appendChild(imgPreviewDiv);
         };
 
         if (file) {
