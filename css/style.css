@@ -20,5 +20,7 @@
   }
   #imagePreview .preview-container .preview-img img {
     width: 100%;
-    height: auto;
+    margin: 10px;
+    object-fit: contain;
+    max-height: 100%;
   }
