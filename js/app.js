@@ -1,5 +1,6 @@
 const uploadInput = document.getElementById('uploadInput');
 const imagePreview = document.getElementById('imagePreview');
+let imagesUploaded = false;
 
 uploadInput.addEventListener('change', function() {
     const files = this.files;
@@ -53,5 +54,16 @@ uploadInput.addEventListener('change', function() {
         if (file) {
             reader.readAsDataURL(file);
         }
+    }
+
+    // Set the flag indicating that images have been uploaded
+    imagesUploaded = true;
+});
+
+// Add beforeunload event listener to warn the user before leaving the page
+window.addEventListener('beforeunload', function(event) {
+    if (imagesUploaded) {
+        event.preventDefault();
+        event.returnValue = 'If you refresh the page, the uploaded images will be removed.';
     }
 });
