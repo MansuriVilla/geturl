@@ -15,9 +15,11 @@ body{
 #imagePreview{
     border-radius: 50px 50px 0px 0px;
     background-color: #f8f8f8;
-    position: relative;
+    position: absolute;
     z-index: 1;
     text-align: center;
+    min-height: 530px;
+    width: 100%;
 }
 
 #imagePreview .no-preview{
