@@ -5,7 +5,7 @@ body{
     background-color: #f2f2f2;
 }
 .input-hero-section{
-    height: 45vh;
+    height: 53vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,11 +15,9 @@ body{
 #imagePreview{
     border-radius: 50px 50px 0px 0px;
     background-color: #f8f8f8;
-    position: absolute;
+    position: relative;
     z-index: 1;
     text-align: center;
-    min-height: 530px;
-    width: 100%;
 }
 
 #imagePreview .no-preview{
