@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Add image to the button
                 const copyImg = document.createElement('img');
-                copyImg.src = '../images/copy-link-icon.svg'; // Replace with your image URL or path
+                copyImg.src = '../images/copy-link-icon.png'; // Replace with your image URL or path
                 copyImg.alt = 'Copy URL';
                 copyUrlBtn.appendChild(copyImg);
 
