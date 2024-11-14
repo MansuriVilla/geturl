@@ -3,14 +3,8 @@ body.dragging { background-color: rgba(0, 0, 0, 0.1); }
 .drop-area { width: 100%; height: 100vh; position: absolute; top: 0; left: 0; background-color: rgba(0, 0, 0, 0.1); display: none; justify-content: center; align-items: center; }
 .drop-area.active { display: flex; }
 .drop-area p { font-size: 20px; color: #333; }
-
-
-
 input { border: 1px solid #000; border-radius: 50px; padding: 6px; cursor: pointer; }
 input::file-selector-button { background-color: #000; color: #fff; padding: 0.5em; border: thin solid #0000; outline: 0; border-radius: 50px; }
-
-
-
 .input-hero-section { height: 53vh; display: flex; justify-content: center; align-items: center; position: sticky; top: 0; }
 #imagePreview { border-radius: 50px 50px 0px 0px; background-color: #f8f8f8; position: relative; z-index: 1; text-align: center; }
 #imagePreview .no-preview { max-width: 380px; }
@@ -19,3 +13,20 @@ input::file-selector-button { background-color: #000; color: #fff; padding: 0.5e
 #imagePreview .preview-container .preview-img img { width: 100%; max-height: 100%; border-radius: 12px; object-fit: cover; object-position: top; -o-object-position: top; -o-object-fit: cover; }
 #imagePreview .preview-container .copy-url-btn { border-radius: 60px; outline: none; border: 0px; background: #fff; padding: 5px; height: 50px; width: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; position: absolute; top: 5px; right: 5px; }
 #imagePreview .preview-container .copy-url-btn img { max-width: 30px; max-height: 30px !important; }
+@media (prefers-color-scheme: dark) {
+ body { background-color: #161616; color: #ffffff; }
+.image-preview { background-color: #333; color: #fff; }
+.copy-url-btn { background-color: #555; color: #fff; }
+#imagePreview .preview-container .preview-img { background: #383838; }
+#imagePreview .preview-container .copy-url-btn img { filter: invert(1); }
+#imagePreview .preview-container .copy-url-btn { background: #262626; }
+#imagePreview { background-color: #262626; }
+input { border: 1px solid #262626; }
+input::file-selector-button { background-color: #262626; }
+ }
+@media (prefers-color-scheme: light) {
+ body { background-color: #ffffff; color: #000000; }
+.input-hero-section { background-color: #f5f5f5; }
+.image-preview { background-color: #f5f5f5; color: #000; }
+.copy-url-btn { background-color: #ddd; color: #000; }
+ }
