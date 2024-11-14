@@ -41,6 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       for (let i = 0; i < files.length; i++) {
           const file = files[i];
+
+          // Validate file type (only images allowed)
+          if (!isValidImage(file)) {
+              alert("Invalid file type. Only image files are allowed.");
+              continue; // Skip invalid files
+          }
+
           const reader = new FileReader();
 
           reader.onload = function(event) {
@@ -87,6 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       imagesUploaded = true;
+  }
+
+  // Function to validate if the file is an image
+  function isValidImage(file) {
+      const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/bmp', 'image/tiff'];
+      return validTypes.includes(file.type); // Check if file's MIME type is one of the valid image types
   }
 
   // Add beforeunload event listener to warn the user before leaving the page
