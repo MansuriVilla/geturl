@@ -1,27 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Get Url | Home</title>
     <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "nbtncz0zwa");
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", "nbtncz0zwa");
     </script>
-    <link rel="stylesheet" href="./css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
     <div class="input-hero-section">
-        <input type="file" id="uploadInput" multiple>
+      <input type="file" id="uploadInput" multiple />
     </div>
-    <div class="image-preview" id="imagePreview"> 
-        <img src="./images/no-preview-image.png" alt="No Preview Img" class="no-preview">
-        <p>No preview available. Once you upload images, they will be displayed here!</p>     
+    <div class="image-preview" id="imagePreview">
+      <img
+        src="./images/no-preview-image.png"
+        alt="No Preview Img"
+        class="no-preview"
+      />
+      <p>
+        No preview available. Once you upload images, they will be displayed
+        here!
+      </p>
+    </div>
+    <div class="drop-area">
+      <p>Drop your files here to upload</p>
     </div>
 
     <script src="./js/app.js"></script>
-</body>
+  </body>
 </html>
