@@ -6,7 +6,8 @@ body.dragging { background-color: rgba(0, 0, 0, 0.1); }
 input { border: 1px solid #000; border-radius: 50px; padding: 6px; cursor: pointer; }
 input::file-selector-button { background-color: #000; color: #fff; padding: 0.5em; border: thin solid #0000; outline: 0; border-radius: 50px; }
 .input-hero-section { height: 53vh; display: flex; justify-content: center; align-items: center; position: sticky; top: 0; }
-#imagePreview { border-radius: 50px 50px 0px 0px; background-color: #f8f8f8; position: relative; z-index: 1; text-align: center; }
+#imagePreview { border-radius: 50px 50px 0px 0px; background-color: #f8f8f8; position: relative; z-index: 1; text-align: center;  bottom: 0;
+    width: 100%; position: absolute; }
 #imagePreview .no-preview { max-width: 380px; }
 #imagePreview .preview-container { display: flex; flex-flow: wrap; justify-content: center; align-items: center; max-width: 1400px; margin: 0 auto; padding: 20px 0px; height: 800px; overflow: scroll; }
 #imagePreview .preview-container .preview-img { height: 400px; width: 100%; background: #ebebeb; margin: 10px; max-width: 400px; padding: 10px; border-radius: 22px; position: relative; }
