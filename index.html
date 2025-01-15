@@ -18,23 +18,38 @@
         y.parentNode.insertBefore(t, y);
       })(window, document, "clarity", "script", "nbtncz0zwa");
     </script>
-    <link rel="stylesheet" href="./css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
     <div class="input-hero-section">
       <input type="file" id="uploadInput" multiple accept="image/*" />
-
     </div>
-    <div class="image-preview" id="imagePreview">
-      <img
-        src="./images/no-preview-image.png"
-        alt="No Preview Img"
-        class="no-preview"
-      />
-      <p>
-        No preview available. Once you upload images, they will be displayed
-        here!
-      </p>
+    <div class="img--showcase--area">
+      <div class="top_feature--area">
+        <div class="feature_total--img">
+          <p>Total Image Uploaded</p>
+          <span id="total_img"></span>
+        </div>
+        <div class="feature_select--img">
+          <p>Select All Images</p>
+          <input type="checkbox" name="" id="selet_all--img" />
+        </div>
+        <div class="feature_delete--img">
+          <p>Delete Selected Images</p>
+          <button id="delete_img">Delete</button>
+        </div>
+      </div>
+      <div class="image-preview" id="imagePreview">
+        <img
+          src="./images/no-preview-image.png"
+          alt="No Preview Img"
+          class="no-preview"
+        />
+        <p>
+          No preview available. Once you upload images, they will be displayed
+          here!
+        </p>
+      </div>
     </div>
     <div class="drop-area">
       <p>Drop your files here to upload</p>
