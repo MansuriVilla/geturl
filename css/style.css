@@ -29,6 +29,11 @@ input::file-selector-button { background-color: #000; color: #fff; padding: 0.5e
 #imagePreview { background-color: #262626; }
 input { border: 1px solid #262626; }
 input::file-selector-button { background-color: #262626; }
+ .preview-img.new {
+  border: 2px solid #00ff00; /* Green border to highlight the new images */
+  background-color: rgba(0, 255, 0, 0.1); /* Light green background */
+}
+
  }
 @media (prefers-color-scheme: light) {
  body { background-color: #ffffff; color: #000000; }
