@@ -61,11 +61,14 @@ document.addEventListener('DOMContentLoaded', () => {
   function handleFiles (files) {
     let previewContainer = document.querySelector('.preview-container')
 
+    // Create the preview container if it doesn't exist
     if (!previewContainer) {
       previewContainer = document.createElement('div')
       previewContainer.classList.add('preview-container')
       imagePreview.appendChild(previewContainer)
     }
+
+    const totalImages = document.querySelectorAll('.preview-img').length
 
     Array.from(files).forEach(file => {
       if (!isValidImage(file)) {
@@ -91,6 +94,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const imgElement = document.createElement('img')
         imgElement.src = imgSrc
         imgPreviewDiv.appendChild(imgElement)
+
+        // Check if there are already images in the preview container
+        if (totalImages > 0) {
+          imgPreviewDiv.classList.add('new')  // Add a "new" class to newly added images
+        }
 
         const copyUrlBtn = document.createElement('button')
         copyUrlBtn.classList.add('copy-url-btn')
