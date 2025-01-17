@@ -8,7 +8,7 @@ input::file-selector-button { background-color: #000; color: #fff; padding: 0.5e
 .input-hero-section { height: 53vh; display: flex; justify-content: center; align-items: center; position: sticky; top: 0; }
 #imagePreview { background-color: #f8f8f8; position: relative; z-index: 1; text-align: center; }
 #imagePreview .no-preview { max-width: 380px; }
-#imagePreview .preview-container { display: flex; flex-flow: wrap; justify-content: center; align-items: center; max-width: 1400px; margin: 0 auto; padding: 100px 0px 20px; height: 800px; overflow: scroll; }
+#imagePreview .preview-container { display: flex; flex-flow: wrap; justify-content: center; align-items: center; max-width: 1400px; margin: 0 auto; padding: 100px 0px 20px; height: 800px; overflow-y  : scroll; }
 #imagePreview .preview-container .preview-img { height: 400px; width: 100%; background: #ebebeb; margin: 10px; max-width: 400px; padding: 10px; border-radius: 22px; position: relative; }
 #imagePreview .preview-container .preview-img img { width: 100%; max-height: 100%; border-radius: 12px; object-fit: cover; object-position: top; -o-object-position: top; -o-object-fit: cover; }
 #imagePreview .preview-container .copy-url-btn { border-radius: 60px; outline: none; border: 0px; background: #fff; padding: 5px; height: 50px; width: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; position: absolute; top: 5px; right: 5px; }
@@ -29,12 +29,13 @@ input::file-selector-button { background-color: #000; color: #fff; padding: 0.5e
 #imagePreview { background-color: #262626; }
 input { border: 1px solid #262626; }
 input::file-selector-button { background-color: #262626; }
- .preview-img.new {
-  border: 2px solid #00ff00; /* Green border to highlight the new images */
-  background-color: rgba(0, 255, 0, 0.1); /* Light green background */
-}
-
+.preview-img.new { border: 2px solid #00ff00; /* Green border to highlight the new images */
+  background-color: rgba(0, 255, 0, 0.1); /* Light green background */ }
  }
+.notification-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; }
+.notification { background-color: #4CAF50; color: white; padding: 10px 20px; border-radius: 5px; position: relative; margin-bottom: 10px; font-size: 14px; display: flex; align-items: center; }
+.notification .progress-bar { height: 5px; background-color: #fff; position: absolute; bottom: 0; left: 0; width: 0; transition: width 0.1s linear ; }
+.notification button { background-color: transparent; border: none; color: white; cursor: pointer; margin-left: 10px; }
 @media (prefers-color-scheme: light) {
  body { background-color: #ffffff; color: #000000; }
 .input-hero-section { background-color: #f5f5f5; }

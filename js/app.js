@@ -80,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       reader.onload = function (event) {
         const imgSrc = event.target.result
+        const fileName = file.name // Get the file name
 
         noPreviewImage.style.display = 'none'
         noPreviewText.style.display = 'none'
@@ -91,13 +92,26 @@ document.addEventListener('DOMContentLoaded', () => {
         checkbox.type = 'checkbox'
         imgPreviewDiv.appendChild(checkbox)
 
+        // Image preview
         const imgElement = document.createElement('img')
         imgElement.src = imgSrc
         imgPreviewDiv.appendChild(imgElement)
 
+        // File name
+        const fileNameDiv = document.createElement('div') // Container for file name
+        fileNameDiv.textContent = fileName // Set the file name text
+        imgPreviewDiv.appendChild(fileNameDiv)
+
+        // Image details (height, width, and size)
+        const imageDetails = getImageDetails(file, imgElement)
+        const detailsDiv = document.createElement('div')
+        detailsDiv.classList.add('image-details')
+        detailsDiv.textContent = `Dimensions: ${imageDetails.width} x ${imageDetails.height} px | Size: ${imageDetails.size} KB`
+        imgPreviewDiv.appendChild(detailsDiv)
+
         // Check if there are already images in the preview container
         if (totalImages > 0) {
-          imgPreviewDiv.classList.add('new')  // Add a "new" class to newly added images
+          imgPreviewDiv.classList.add('new') // Add a "new" class to newly added images
         }
 
         const copyUrlBtn = document.createElement('button')
@@ -114,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
             navigator.clipboard
               .writeText(url)
               .then(() => {
-                alert('Image URL copied to clipboard!')
+                showNotification('Image URL copied to clipboard!', 3000)
               })
               .catch(err => {
                 console.error('Failed to copy: ', err)
@@ -138,6 +152,68 @@ document.addEventListener('DOMContentLoaded', () => {
     imagesUploaded = true
     toggleFeatureTab()
     toggleNoPreviewMessage()
+  }
+
+  function getImageDetails (file, imgElement) {
+    const imageDetails = {
+      width: 0,
+      height: 0,
+      size: (file.size / 1024).toFixed(2) // Convert file size to KB
+    }
+
+    // Create a new Image object to load the file and get its dimensions
+    const tempImg = new Image()
+    tempImg.onload = function () {
+      // Set the image width and height after it loads
+      imageDetails.width = tempImg.width
+      imageDetails.height = tempImg.height
+
+      // Manually trigger the update of the image details here
+      updateImageDetails(imageDetails, imgElement, file)
+    }
+
+    tempImg.src = URL.createObjectURL(file)
+
+    return imageDetails
+  }
+
+  function updateImageDetails (imageDetails, imgElement, file) {
+    const imgPreviewDiv = imgElement.closest('.preview-img')
+    const detailsDiv = imgPreviewDiv.querySelector('.image-details')
+
+    // Update the dimensions and size of the image
+    detailsDiv.textContent = `Dimensions: ${imageDetails.width} x ${imageDetails.height} px | Size: ${imageDetails.size} KB`
+  }
+
+  function showNotification (message, duration) {
+    const notification = document.createElement('div')
+    notification.classList.add('notification')
+
+    const progressBar = document.createElement('div')
+    progressBar.classList.add('progress-bar')
+
+    notification.textContent = message
+    notification.appendChild(progressBar)
+
+    notificationContainer.appendChild(notification)
+
+    // Set up the progress bar animation
+    let progress = 0
+    const interval = setInterval(() => {
+      progress += 10
+      progressBar.style.width = progress + '%'
+      if (progress >= 100) {
+        clearInterval(interval)
+        setTimeout(() => {
+          notification.remove()
+        }, 500) // Wait for the notification to fully fill before removing
+      }
+    }, duration / 10)
+
+    // Automatically remove the notification after the specified duration
+    setTimeout(() => {
+      notification.remove()
+    }, duration)
   }
 
   function isValidImage (file) {
@@ -189,6 +265,9 @@ document.addEventListener('DOMContentLoaded', () => {
       event.preventDefault()
       event.returnValue =
         'If you refresh the page, the uploaded images will be removed.'
+
+      // Show notification for refresh attempt
+      showNotification('Warning: Refreshing will remove uploaded images!', 3000)
     }
   })
 })
