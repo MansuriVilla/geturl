@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
   body.addEventListener('drop', event => {
     event.preventDefault()
     body.classList.remove('dragging')
-
     const files = event.dataTransfer.files
     handleFiles(files)
   })
@@ -49,13 +48,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkboxes = document.querySelectorAll(
       '.preview-img input[type="checkbox"]:checked'
     )
+    const deletedImagesCount = checkboxes.length
+
     checkboxes.forEach(checkbox => {
       const previewDiv = checkbox.closest('.preview-img')
       previewDiv.remove()
     })
+
     updateTotalImages()
     toggleFeatureTab()
     toggleNoPreviewMessage()
+
+    // Show notification after images are deleted
+    if (deletedImagesCount > 0) {
+      showNotification(`${deletedImagesCount} image(s) deleted!`, 3000)
+    }
   })
 
   function handleFiles (files) {
@@ -186,6 +193,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showNotification (message, duration) {
+    const notificationContainer = document.getElementById(
+      'notificationContainer'
+    )
+
+    if (!notificationContainer) {
+      console.error('Notification container not found!')
+      return
+    }
+
     const notification = document.createElement('div')
     notification.classList.add('notification')
 
@@ -265,8 +281,6 @@ document.addEventListener('DOMContentLoaded', () => {
       event.preventDefault()
       event.returnValue =
         'If you refresh the page, the uploaded images will be removed.'
-
-      // Show notification for refresh attempt
       showNotification('Warning: Refreshing will remove uploaded images!', 3000)
     }
   })
