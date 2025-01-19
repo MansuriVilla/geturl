@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const body = document.body
 
+  // Drag and Drop Events
   body.addEventListener('dragover', event => {
     event.preventDefault()
     body.classList.add('dragging')
@@ -26,15 +27,15 @@ document.addEventListener('DOMContentLoaded', () => {
   body.addEventListener('drop', event => {
     event.preventDefault()
     body.classList.remove('dragging')
-    const files = event.dataTransfer.files
-    handleFiles(files)
+    handleFiles(event.dataTransfer.files)
   })
 
+  // File Upload via Input
   uploadInput.addEventListener('change', function () {
-    const files = this.files
-    handleFiles(files)
+    handleFiles(this.files)
   })
 
+  // Select All/Unselect All Checkbox Logic
   selectAllCheckbox.addEventListener('change', () => {
     const checkboxes = document.querySelectorAll(
       '.preview-img input[type="checkbox"]'
@@ -44,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   })
 
+  // Delete Selected Images
   deleteBtn.addEventListener('click', () => {
     const checkboxes = document.querySelectorAll(
       '.preview-img input[type="checkbox"]:checked'
@@ -59,23 +61,20 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleFeatureTab()
     toggleNoPreviewMessage()
 
-    // Show notification after images are deleted
     if (deletedImagesCount > 0) {
       showNotification(`${deletedImagesCount} image(s) deleted!`, 3000)
     }
   })
 
+  // Handle Uploaded Files
   function handleFiles (files) {
     let previewContainer = document.querySelector('.preview-container')
 
-    // Create the preview container if it doesn't exist
     if (!previewContainer) {
       previewContainer = document.createElement('div')
       previewContainer.classList.add('preview-container')
       imagePreview.appendChild(previewContainer)
     }
-
-    const totalImages = document.querySelectorAll('.preview-img').length
 
     Array.from(files).forEach(file => {
       if (!isValidImage(file)) {
@@ -87,65 +86,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       reader.onload = function (event) {
         const imgSrc = event.target.result
-        const fileName = file.name // Get the file name
+        const fileName = file.name
 
         noPreviewImage.style.display = 'none'
         noPreviewText.style.display = 'none'
 
-        const imgPreviewDiv = document.createElement('div')
-        imgPreviewDiv.classList.add('preview-img')
-
-        const checkbox = document.createElement('input')
-        checkbox.type = 'checkbox'
-        imgPreviewDiv.appendChild(checkbox)
-
-        // Image preview
-        const imgElement = document.createElement('img')
-        imgElement.src = imgSrc
-        imgPreviewDiv.appendChild(imgElement)
-
-        // File name
-        const fileNameDiv = document.createElement('div') // Container for file name
-        fileNameDiv.textContent = fileName // Set the file name text
-        imgPreviewDiv.appendChild(fileNameDiv)
-
-        // Image details (height, width, and size)
-        const imageDetails = getImageDetails(file, imgElement)
-        const detailsDiv = document.createElement('div')
-        detailsDiv.classList.add('image-details')
-        detailsDiv.textContent = `Dimensions: ${imageDetails.width} x ${imageDetails.height} px | Size: ${imageDetails.size} KB`
-        imgPreviewDiv.appendChild(detailsDiv)
-
-        // Check if there are already images in the preview container
-        if (totalImages > 0) {
-          imgPreviewDiv.classList.add('new') // Add a "new" class to newly added images
-        }
-
-        const copyUrlBtn = document.createElement('button')
-        copyUrlBtn.classList.add('copy-url-btn')
-
-        const copyImg = document.createElement('img')
-        copyImg.src = './images/copy-link-icon.png'
-        copyImg.alt = 'Copy URL'
-        copyUrlBtn.appendChild(copyImg)
-
-        copyUrlBtn.addEventListener('click', function () {
-          const url = imgElement.src
-          if (url) {
-            navigator.clipboard
-              .writeText(url)
-              .then(() => {
-                showNotification('Image URL copied to clipboard!', 3000)
-              })
-              .catch(err => {
-                console.error('Failed to copy: ', err)
-              })
-          }
-        })
-
-        imgPreviewDiv.appendChild(copyUrlBtn)
-
+        const imgPreviewDiv = createImagePreview(imgSrc, fileName, file)
         previewContainer.appendChild(imgPreviewDiv)
+        observer.observe(imgPreviewDiv)
         updateTotalImages()
         toggleFeatureTab()
         toggleNoPreviewMessage()
@@ -161,37 +109,91 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleNoPreviewMessage()
   }
 
+  // Create Image Preview DOM Structure
+  function createImagePreview (imgSrc, fileName, file) {
+    const imgPreviewDiv = document.createElement('div')
+    imgPreviewDiv.classList.add('preview-img')
+
+    const checkbox = document.createElement('input')
+    checkbox.type = 'checkbox'
+    imgPreviewDiv.appendChild(checkbox)
+
+    const imgElement = document.createElement('img')
+    imgElement.dataset.src = imgSrc
+    imgElement.src =
+      'data:image/gif;base64,R0lGODlhEAAQAPAAAAAAAP///yH5BAEKAAEALAAAAAAQABAAAAM93I+pyJAkQAAOw==' // Placeholder
+    imgElement.classList.add('lazy-load')
+    imgPreviewDiv.appendChild(imgElement)
+
+    const fileNameDiv = document.createElement('div')
+    fileNameDiv.textContent = fileName
+    imgPreviewDiv.appendChild(fileNameDiv)
+
+    const imageDetails = getImageDetails(file, imgElement)
+    const detailsDiv = document.createElement('div')
+    detailsDiv.classList.add('image-details')
+    detailsDiv.textContent = `Dimensions: ${imageDetails.width} x ${imageDetails.height} px | Size: ${imageDetails.size} KB`
+    imgPreviewDiv.appendChild(detailsDiv)
+
+    const copyUrlBtn = createCopyUrlButton(imgElement)
+    imgPreviewDiv.appendChild(copyUrlBtn)
+
+    return imgPreviewDiv
+  }
+
+  // Create Copy URL Button
+  function createCopyUrlButton (imgElement) {
+    const copyUrlBtn = document.createElement('button')
+    copyUrlBtn.classList.add('copy-url-btn')
+
+    const copyImg = document.createElement('img')
+    copyImg.src = './images/copy-link-icon.png'
+    copyImg.alt = 'Copy URL'
+    copyUrlBtn.appendChild(copyImg)
+
+    copyUrlBtn.addEventListener('click', () => {
+      const url = imgElement.dataset.src
+      if (url) {
+        navigator.clipboard
+          .writeText(url)
+          .then(() => showNotification('Image URL copied to clipboard!', 3000))
+          .catch(err => {
+            console.error('Failed to copy: ', err)
+            showNotification('Failed to copy the URL.', 3000)
+          })
+      }
+    })
+
+    return copyUrlBtn
+  }
+
+  // Get Image Details (Dimensions & Size)
   function getImageDetails (file, imgElement) {
     const imageDetails = {
       width: 0,
       height: 0,
-      size: (file.size / 1024).toFixed(2) // Convert file size to KB
+      size: (file.size / 1024).toFixed(2)
     }
 
-    // Create a new Image object to load the file and get its dimensions
     const tempImg = new Image()
     tempImg.onload = function () {
-      // Set the image width and height after it loads
       imageDetails.width = tempImg.width
       imageDetails.height = tempImg.height
-
-      // Manually trigger the update of the image details here
-      updateImageDetails(imageDetails, imgElement, file)
+      updateImageDetails(imageDetails, imgElement)
     }
 
     tempImg.src = URL.createObjectURL(file)
-
     return imageDetails
   }
 
-  function updateImageDetails (imageDetails, imgElement, file) {
+  // Update Image Details
+  function updateImageDetails (imageDetails, imgElement) {
     const imgPreviewDiv = imgElement.closest('.preview-img')
     const detailsDiv = imgPreviewDiv.querySelector('.image-details')
-
-    // Update the dimensions and size of the image
     detailsDiv.textContent = `Dimensions: ${imageDetails.width} x ${imageDetails.height} px | Size: ${imageDetails.size} KB`
   }
 
+  // Display Notifications
   function showNotification (message, duration) {
     const notificationContainer = document.getElementById(
       'notificationContainer'
@@ -210,28 +212,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     notification.textContent = message
     notification.appendChild(progressBar)
-
     notificationContainer.appendChild(notification)
 
-    // Set up the progress bar animation
     let progress = 0
     const interval = setInterval(() => {
       progress += 10
       progressBar.style.width = progress + '%'
       if (progress >= 100) {
         clearInterval(interval)
-        setTimeout(() => {
-          notification.remove()
-        }, 500) // Wait for the notification to fully fill before removing
+        setTimeout(() => notification.remove(), 500)
       }
     }, duration / 10)
 
-    // Automatically remove the notification after the specified duration
-    setTimeout(() => {
-      notification.remove()
-    }, duration)
+    setTimeout(() => notification.remove(), duration)
   }
 
+  // Utility: Check if Valid Image File
   function isValidImage (file) {
     const validTypes = [
       'image/jpeg',
@@ -244,44 +240,65 @@ document.addEventListener('DOMContentLoaded', () => {
     return validTypes.includes(file.type)
   }
 
+  // Update Total Image Count
   function updateTotalImages () {
     const totalImages = document.querySelectorAll('.preview-img').length
     totalImgSpan.textContent = totalImages
   }
 
+  // Toggle Feature Tab
   function toggleFeatureTab () {
     const totalImages = document.querySelectorAll('.preview-img').length
-    if (totalImages > 0) {
-      topFeatureArea.style.display = 'flex'
-    } else {
-      topFeatureArea.style.display = 'none'
-    }
+    topFeatureArea.style.display = totalImages > 0 ? 'flex' : 'none'
   }
 
+  // Toggle "No Preview" Message
   function toggleNoPreviewMessage () {
     const previewContainer = document.querySelector('.preview-container')
     const totalImages = document.querySelectorAll('.preview-img').length
-    if (totalImages === 0) {
-      noPreviewImage.style.display = 'inline-block'
-      noPreviewText.style.display = 'block'
-      if (previewContainer) {
-        previewContainer.style.display = 'none'
-      }
-    } else {
-      noPreviewImage.style.display = 'none'
-      noPreviewText.style.display = 'none'
-      if (previewContainer) {
-        previewContainer.style.display = 'flex'
-      }
-    }
+    const isEmpty = totalImages === 0
+
+    noPreviewImage.style.display = isEmpty ? 'inline-block' : 'none'
+    noPreviewText.style.display = isEmpty ? 'block' : 'none'
+    if (previewContainer)
+      previewContainer.style.display = isEmpty ? 'none' : 'flex'
   }
 
-  window.addEventListener('beforeunload', function (event) {
-    if (imagesUploaded) {
+  // Lazy Load Observer
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        const imgElement = entry.target.querySelector('img')
+        if (entry.isIntersecting && imgElement?.dataset.src) {
+          imgElement.src = imgElement.dataset.src
+          observer.unobserve(entry.target)
+        }
+      })
+    },
+    { root: null, rootMargin: '200px', threshold: 0.5 }
+  )
+
+  // Modal Logic
+  const modal = document.getElementById('customModal')
+  const cancelBtn = document.getElementById('cancelBtn')
+  const confirmBtn = document.getElementById('confirmBtn')
+  let reloadPage = false
+
+  window.addEventListener('beforeunload', event => {
+    if (imagesUploaded && !reloadPage) {
       event.preventDefault()
-      event.returnValue =
-        'If you refresh the page, the uploaded images will be removed.'
-      showNotification('Warning: Refreshing will remove uploaded images!', 3000)
+      modal.style.display = 'flex'
+      return (event.returnValue = '')
     }
+  })
+
+  cancelBtn.addEventListener('click', () => {
+    modal.style.display = 'none'
+  })
+
+  confirmBtn.addEventListener('click', () => {
+    reloadPage = true
+    modal.style.display = 'none'
+    window.location.reload()
   })
 })
