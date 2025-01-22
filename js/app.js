@@ -301,4 +301,38 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.style.display = 'none'
     window.location.reload()
   })
+
+
+  const ACCESS_KEY = '-M-eobT01N5ezliymd96b7k2TjzbcK7n5g8Ivy050fs';
+
+
+  const heroSection = document.querySelector('.input-hero-section');
+  
+  
+  async function fetchQuoteImage() {
+    try {
+      const response = await fetch(
+        `https://api.unsplash.com/photos/random?query=nature+quotes&client_id=${ACCESS_KEY}`
+      );
+      const data = await response.json();
+  
+      
+      const imageUrl = data.urls.full;
+  
+      
+      heroSection.style.backgroundImage = `url(${imageUrl})`;
+    } catch (error) {
+      console.error('Error fetching quote image:', error);
+    }
+  }
+  
+  
+  fetchQuoteImage();
+
+
+
+
+
+
+
 })

@@ -3,19 +3,44 @@ body.dragging { background-color: rgba(0, 0, 0, 0.1); }
 .drop-area { width: 100%; height: 100vh; position: absolute; top: 0; left: 0; background-color: rgba(0, 0, 0, 0.1); display: none; justify-content: center; align-items: center; }
 .drop-area.active { display: flex; }
 .drop-area p { font-size: 20px; color: #333; }
+p{margin-bottom: 0px;}
+
 input { border: 1px solid #000; border-radius: 50px; padding: 6px; cursor: pointer; }
-input::file-selector-button { background-color: #000; color: #fff; padding: 0.5em; border: thin solid #0000; outline: 0; border-radius: 50px; }
-.input-hero-section { height: 53vh; display: flex; justify-content: center; align-items: center; position: sticky; top: 0; }
-#imagePreview { background-color: #f8f8f8; position: relative; z-index: 1; text-align: center; }
+input::file-selector-button { background-color: #00000060; backdrop-filter: blur(5px); border: 1px solid #ffffff80; color: #fff; padding: 0.5em; border: thin solid #0000; outline: 0; border-radius: 50px;  }
+.site_input--img-colletion { min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; }
+#imagePreview { background-color: #f8f8f860;
+    backdrop-filter: blur(20px); position: relative; z-index: 1; text-align: center; padding: 0px 0px 20px; }
 #imagePreview .no-preview { max-width: 380px; }
-#imagePreview .preview-container { display: flex; flex-flow: wrap; justify-content: center; align-items: center; max-width: 1400px; margin: 0 auto; padding: 100px 0px 20px; height: 800px; overflow-y  : scroll; }
+#imagePreview .preview-container { display: flex; flex-flow: wrap; justify-content: center; align-items: center; max-width: 1400px; margin: 0 auto; padding:0px; height: 800px; overflow-y  : scroll; }
 #imagePreview .preview-container .preview-img { height: 400px; width: 100%; background: #ebebeb; margin: 10px; max-width: 400px; padding: 10px; border-radius: 22px; position: relative; }
 #imagePreview .preview-container .preview-img img { width: 100%; max-height: 100%; border-radius: 12px; object-fit: cover; object-position: top; -o-object-position: top; -o-object-fit: cover; }
 #imagePreview .preview-container .copy-url-btn { border-radius: 60px; outline: none; border: 0px; background: #fff; padding: 5px; height: 50px; width: 50px; display: flex; justify-content: center; align-items: center; cursor: pointer; position: absolute; top: 5px; right: 5px; }
 #imagePreview .preview-container .copy-url-btn img { max-width: 30px; max-height: 30px !important; }
-.top_feature--area { position: absolute; top: 0; left: 0; width: 100%; z-index: 9; display: flex
-; padding: 20px; background: #00000030; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); justify-content: space-around; }
-.img--showcase--area { position: relative; height: 100%; width: 100%; overflow: hidden; border-radius: 50px 50px 0px 0px; }
+.top_feature--area { position: sticky; top: 0; left: 0; width: 100%; z-index: 9; display: flex; padding: 20px; background: #00000060; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); justify-content: space-around; }
+.img--showcase--area { position: absolute; bottom: 0; width: 100%; overflow: hidden; border-radius: 50px 50px 0px 0px; }
+input:not(.feature_select--img input, .preview-img input){margin-top: 15%;}
+
+.site_input--img-colletion input{position: relative; z-index: 999; border: 1px solid #ffffff80;
+    position: relative;
+    z-index: 9999;
+    background: #ffffff20;
+    backdrop-filter: blur(3px);}
+
+.site_input--img-colletion::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: #00000050;
+    z-index: 0;
+  }
+
+
+
+
+.top_feature--area p{margin: 0;}
 [class^="feature_"] { flex: 30%; cursor: pointer; display: flex
 ; align-items: center; column-gap: 10px; justify-content: center; }
 #imagePreview .preview-container .preview-img input { position: absolute; }
@@ -23,19 +48,19 @@ input::file-selector-button { background-color: #000; color: #fff; padding: 0.5e
  body { background-color: #161616; color: #ffffff; }
 .image-preview { background-color: #333; color: #fff; }
 .copy-url-btn { background-color: #555; color: #fff; }
-#imagePreview .preview-container .preview-img { background: #383838; }
+#imagePreview .preview-container .preview-img { background: #38383860; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);  }
 #imagePreview .preview-container .copy-url-btn img { filter: invert(1); }
 #imagePreview .preview-container .copy-url-btn { background: #262626; }
-#imagePreview { background-color: #262626; }
+#imagePreview { background-color: #00000060; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
 input { border: 1px solid #262626; }
-input::file-selector-button { background-color: #262626; }
+input::file-selector-button { background-color: #00000060; backdrop-filter: blur(5px); border: 1px solid #ffffff80; }
 .preview-img.new { border: 2px solid #00ff00; /* Green border to highlight the new images */
   background-color: rgba(0, 255, 0, 0.1); /* Light green background */ }
  }
 /* Notification container */
 .notification-container { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 9999; width: 300px; max-width: 100%; }
 /* Notification style */
-.notification { background-color: #444; color: white; padding: 10px; border-radius: 5px; margin-bottom: 10px; position: relative; display: flex; justify-content: space-between; align-items: center; }
+.notification { background-color: #00000060;  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); color: white; padding: 10px; border-radius: 5px; margin-bottom: 10px; position: relative; display: flex; justify-content: space-between; align-items: center; }
 /* Progress bar inside the notification */
 .progress-bar { width: 0; height: 4px; background-color: #00ff00; position: absolute; bottom: 0; left: 0; border-radius: 2px; }
 /* Style for the skeleton loader */
